@@ -6,8 +6,7 @@ import store from "./store";
 import Loader from "@/components/Loader";
 
 import "materialize-css/dist/js/materialize.min";
-import 'materialize-css/dist/css/materialize.min.css'
-
+import "materialize-css/dist/css/materialize.min.css";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -17,7 +16,6 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 import moment from "moment";
-
 
 Vue.prototype.moment = moment;
 

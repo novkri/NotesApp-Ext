@@ -32,13 +32,11 @@ export default {
     async deleteNote({ dispatch, commit }, noteId) {
       try {
         const uid = await dispatch("getUid");
-        console.log(noteId, uid);
         await firebase
           .database()
           .ref(`/users/${uid}/notes`)
           .child(noteId)
           .remove();
-        // return { ...payload, id: note.key };
       } catch (error) {
         commit("setError", error);
         throw error;
@@ -59,6 +57,26 @@ export default {
         return Object.keys(notes).map(key => ({ ...notes[key], id: key }));
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async updateNote({ dispatch, commit }, payload) {
+      try {
+        const uid = await dispatch("getUid");
+        await firebase
+          .database()
+          .ref(`/users/${uid}/notes/${payload.id}`)
+          .update({
+            createdAt: payload.createdAt,
+            description: payload.description,
+            title: payload.title
+          });
+        // .child(noteId)
+        // .remove();
+        // return { ...payload, id: note.key };
+      } catch (error) {
+        commit("setError", error);
+        throw error;
       }
     }
   },

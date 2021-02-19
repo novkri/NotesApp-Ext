@@ -8,20 +8,62 @@
       </p>
     </div>
 
-
     <div class="card horizontal" v-for="note in notes" :key="note.id">
       <div class="card-stacked">
         <div class="card-content">
           <div class="title">
-            <span class="card-title">{{ note.title }}</span>
-            
-            <!-- <a class="card-title btn" @click="editNote"><i class="material-icons">edit</i></a> -->
-            <a class="card-title waves-effect waves-red btn-flat" @click="deleteNote(note.id)"><i class="material-icons">delete</i></a>
+            <span
+              class="card-title"
+              @click="
+                setEditing($event, true, false, {
+                  id: note.id,
+                  data: note.title
+                })
+              "
+              v-show="!isEditingTitle || currentId !== note.id"
+              >{{ note.title }}</span
+            >
+            <input
+              class="card-title editing"
+              type="text"
+              v-show="isEditingTitle && currentId === note.id"
+              v-model.trim="note.title"
+              @blur="setEditing($event, false, false, note)"
+              @keyup.enter="$event.target.blur()"
+              @keyup.esc="cancelEditing(note.title)"
+            />
+
+            <a
+              class="card-title waves-effect waves-red btn-flat"
+              @click="deleteNote(note.id)"
+              ><i class="material-icons">delete</i></a
+            >
           </div>
-          
-          <p class="card-description">
+
+          <p
+            class="card-description"
+            @click="
+              setEditing($event, false, true, {
+                id: note.id,
+                data: note.description
+              })
+            "
+            v-show="!isEditingDescription || currentId !== note.id"
+          >
             {{ note.description }}
+            <span class="card-description--empty" v-if="!note.description"
+              >Добавить описание...</span
+            >
           </p>
+          <textarea
+            class="card-description editing materialize-textarea"
+            type="text"
+            v-show="isEditingDescription && currentId === note.id"
+            v-model.trim="note.description"
+            @blur="setEditing($event, false, false, note)"
+            @keyup.enter="$event.target.blur()"
+            @keyup.esc="cancelEditing(note.description)"
+          ></textarea>
         </div>
         <div class="card-action card-info">
           <span class="card-date"
@@ -51,7 +93,12 @@ export default {
   data: () => ({
     date: new Date(),
     time: new Date(),
-    interval: null
+    interval: null,
+    // isEditing: false,
+    isEditingTitle: false,
+    isEditingDescription: false,
+    currentData: "",
+    currentId: ""
   }),
   beforeDestroy() {
     clearInterval(this.interval);
@@ -59,7 +106,7 @@ export default {
 
   methods: {
     getYearsMonthsDays(date) {
-      let fromTime = moment(date).diff(moment(), "milliseconds");
+      let fromTime = moment(new Date(date)).diff(moment(), "milliseconds");
       let duration = moment.duration(fromTime);
       let years = duration.years() / -1;
       let months = duration.months() / -1;
@@ -87,7 +134,33 @@ export default {
     },
 
     deleteNote(noteId) {
-      this.$emit("deleteNote", noteId)
+      this.$emit("deleteNote", noteId);
+    },
+
+    setEditing(event, editingTitle, editingDescription, data) {
+      [this.isEditingTitle, this.isEditingDescription] = [
+        editingTitle,
+        editingDescription
+      ];
+
+      if (editingTitle || editingDescription) {
+        this.currentId = data.id;
+        this.currentData = data.data;
+      } else {
+        data.createdAt = new Date().toString();
+        this.$emit("updateNote", data);
+      }
+    },
+
+    cancelEditing(data) {
+      // console.log(this.currentData); //old
+      // let oldData = this.currentData
+      // this.currentData = oldData
+      console.log(data); //new
+      // console.log(oldData);
+      // this.currentData =
+
+      [this.isEditingTitle, this.isEditingDescription] = [false, false];
     }
   }
 };
@@ -114,7 +187,6 @@ export default {
   }
 }
 
-
 .card .card-content .card-title {
   margin-bottom: 15px;
 }
@@ -132,6 +204,11 @@ a.card-title {
   word-break: break-all;
   width: 70%;
   margin: auto;
+}
+
+.card-description--empty {
+  font-style: italic;
+  color: #949494;
 }
 
 .card-date,

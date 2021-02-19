@@ -1,21 +1,30 @@
 <template>
   <div class="wrapper">
-    <Navbar @showModal="showModal" @dateFilter="dateFilter" />
+    <Navbar @dateFilter="dateFilter" />
 
     <Loader v-if="isLoading" />
-     
+
     <div v-else class="col s12 m7 notes-container">
-      <HomeNotes :notes="notes" :key="notes.length" @deleteNote="deleteNote" />
+      <HomeNotes
+        :notes="notes"
+        :key="notes.length"
+        @deleteNote="deleteNote"
+        @updateNote="updateNote"
+      />
     </div>
 
     <Modal
       v-show="isModalVisible"
-      @close="closeModal"
+      @close="isModalVisible = false"
       @createNote="createNewNote"
     />
 
     <div class="fixed-action-btn" ref="floatBtn">
-      <a class="btn-floating btn-large red" @click="showModal">
+      <a
+        class="btn-floating btn-large red modal-trigger"
+        href="#modalAdd"
+        @click="isModalVisible = true"
+      >
         <i class="large material-icons">mode_edit</i>
       </a>
       <ul></ul>
@@ -58,12 +67,6 @@ export default {
     Modal
   },
   methods: {
-    showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
-    },
     createNewNote(data) {
       this.$store.dispatch("createNote", data).then(() => {
         this.notes.push(data);
@@ -76,6 +79,9 @@ export default {
         this.$toast.success("Заметка удалена! :)");
       });
     },
+    updateNote(data) {
+      this.$store.dispatch("updateNote", data);
+    },
 
     async dateFilter(choosenDate) {
       this.notes = await this.$store.dispatch("fetchNotes");
@@ -84,7 +90,6 @@ export default {
       const yesterday = moment()
         .add(-1, "days")
         .format("DD.MM.YYYY");
-      // const all = moment().add(-2, "days").format("DD.MM.YYYY");
       switch (choosenDate) {
         case "today":
           this.notes = this.notes.filter(note => {
@@ -97,9 +102,6 @@ export default {
           });
           break;
         case "all":
-          // this.notes = this.notes.filter(note => {
-          //   return moment(note.createdAt).format("DD.MM.YYYY") <= all;
-          // });
           this.notes;
           break;
       }

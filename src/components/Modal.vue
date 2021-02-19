@@ -1,57 +1,55 @@
 <template>
   <transition name="fade">
-    <div class="modal-backdrop">
-      <div class="modal" role="dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4>Новая заметка</h4>
+    <div id="modalAdd" class="modal" ref="modalCreate">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Новая заметка</h4>
 
-            <button type="button" class="btn-close btn-flat" @click="close">
-              <i class="material-icons">close</i>
+          <button type="button" class="btn-close btn-flat" @click="close">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-wrapper">
+        <form class="col s12" @submit.prevent="onSubmit()">
+          <div class="row">
+            <div class="input-field col s12">
+              <input
+                id="title"
+                type="text"
+                v-model.trim="title"
+                :class="{ invalid: $v.title.$dirty && !$v.title.required }"
+              />
+              <label for="title">Название</label>
+
+              <span
+                class="helper-text invalid"
+                v-if="$v.title.$dirty && !$v.title.required"
+              >
+                Введите название заметки
+              </span>
+            </div>
+            <div class="input-field col s12">
+              <textarea
+                id="description"
+                type="text"
+                class="materialize-textarea"
+                v-model.trim="description"
+              ></textarea>
+              <label for="description">Описание</label>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="submit"
+              class="modal-close waves-effect waves-yellow btn-flat"
+            >
+              Создать
             </button>
           </div>
-        </div>
-
-        <div class="form-wrapper">
-          <form class="col s12" @submit.prevent="onSubmit()">
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="title"
-                  type="text"
-                  v-model.trim="title"
-                  :class="{ invalid: $v.title.$dirty && !$v.title.required }"
-                />
-                <label for="title">Название</label>
-
-                <span
-                  class="helper-text invalid"
-                  v-if="$v.title.$dirty && !$v.title.required"
-                >
-                  Введите название заметки
-                </span>
-              </div>
-              <div class="input-field col s12">
-                <textarea
-                  id="description"
-                  type="text"
-                  class="materialize-textarea"
-                  v-model.trim="description"
-                ></textarea>
-                <label for="description">Описание</label>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                type="submit"
-                class="modal-close waves-effect waves-yellow btn-flat"
-              >
-                Создать
-              </button>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   </transition>
@@ -59,6 +57,8 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
+import M from "materialize-css";
+
 export default {
   name: "modal",
   data: () => ({
@@ -69,6 +69,9 @@ export default {
     title: {
       required
     }
+  },
+  mounted() {
+    M.Modal.init(this.$refs.modalCreate, {});
   },
   methods: {
     close() {

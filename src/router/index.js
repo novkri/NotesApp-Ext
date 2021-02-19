@@ -36,17 +36,17 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        next()
+        next();
       } else {
         next({
-          path: '/login',
+          path: "/login",
           query: { redirect: to.fullPath }
-        })
+        });
       }
     });
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
