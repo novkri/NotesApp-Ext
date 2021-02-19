@@ -3,9 +3,11 @@ import App from "./App.vue";
 import Vuelidate from "vuelidate";
 import router from "./router";
 import store from "./store";
-
 import Loader from "@/components/Loader";
+
 import "materialize-css/dist/js/materialize.min";
+import 'materialize-css/dist/css/materialize.min.css'
+
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -16,8 +18,8 @@ import "vue-toastification/dist/index.css";
 
 import moment from "moment";
 
-Vue.prototype.moment = moment;
 
+Vue.prototype.moment = moment;
 
 Vue.config.productionTip = false;
 

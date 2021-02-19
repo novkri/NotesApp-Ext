@@ -3,8 +3,9 @@
     <Navbar @showModal="showModal" @dateFilter="dateFilter" />
 
     <Loader v-if="isLoading" />
+     
     <div v-else class="col s12 m7 notes-container">
-      <HomeNotes :notes="notes" :key="notes.length" />
+      <HomeNotes :notes="notes" :key="notes.length" @deleteNote="deleteNote" />
     </div>
 
     <Modal
@@ -17,8 +18,7 @@
       <a class="btn-floating btn-large red" @click="showModal">
         <i class="large material-icons">mode_edit</i>
       </a>
-      <ul>
-      </ul>
+      <ul></ul>
     </div>
   </div>
 </template>
@@ -45,7 +45,6 @@ export default {
       hoverEnabled: false
     });
 
-
     if (!this.$store.getters.info.length) {
       await this.$store.dispatch("fetchInfo");
     }
@@ -71,12 +70,20 @@ export default {
         this.$toast.success("Заметка успешно добавлена! :)");
       });
     },
+    deleteNote(data) {
+      this.$store.dispatch("deleteNote", data).then(() => {
+        this.notes = this.notes.filter(note => note.id !== data);
+        this.$toast.success("Заметка удалена! :)");
+      });
+    },
 
     async dateFilter(choosenDate) {
       this.notes = await this.$store.dispatch("fetchNotes");
 
       const today = moment().format("DD.MM.YYYY");
-      const yesterday = moment().add(-1, "days").format("DD.MM.YYYY");
+      const yesterday = moment()
+        .add(-1, "days")
+        .format("DD.MM.YYYY");
       // const all = moment().add(-2, "days").format("DD.MM.YYYY");
       switch (choosenDate) {
         case "today":
@@ -108,6 +115,13 @@ export default {
 }
 
 .notes-container {
-  height: 84vh;
+  height: 91vh;
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
 }
 </style>

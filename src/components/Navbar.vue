@@ -152,9 +152,9 @@ export default {
 
 <style lang="scss">
 .sidenav {
-      justify-content: space-between;
-    display: flex;
-    flex-direction: column;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-wrapper {

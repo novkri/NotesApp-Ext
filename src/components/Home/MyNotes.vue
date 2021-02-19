@@ -8,10 +8,17 @@
       </p>
     </div>
 
+
     <div class="card horizontal" v-for="note in notes" :key="note.id">
       <div class="card-stacked">
         <div class="card-content">
-          <span class="card-title">{{ note.title }}</span>
+          <div class="title">
+            <span class="card-title">{{ note.title }}</span>
+            
+            <!-- <a class="card-title btn" @click="editNote"><i class="material-icons">edit</i></a> -->
+            <a class="card-title waves-effect waves-red btn-flat" @click="deleteNote(note.id)"><i class="material-icons">delete</i></a>
+          </div>
+          
           <p class="card-description">
             {{ note.description }}
           </p>
@@ -44,8 +51,7 @@ export default {
   data: () => ({
     date: new Date(),
     time: new Date(),
-    interval: null,
-
+    interval: null
   }),
   beforeDestroy() {
     clearInterval(this.interval);
@@ -78,6 +84,10 @@ export default {
           ? minutes + " мин. " + seconds + " сек."
           : seconds + " сек.";
       }
+    },
+
+    deleteNote(noteId) {
+      this.$emit("deleteNote", noteId)
     }
   }
 };
@@ -87,6 +97,8 @@ export default {
 .row--notes {
   margin: 0 !important;
   background-color: #eeeeee;
+  height: fit-content;
+  min-height: 100%;
 }
 .empty {
   height: 54vh;
@@ -102,9 +114,20 @@ export default {
   }
 }
 
+
 .card .card-content .card-title {
   margin-bottom: 15px;
 }
+
+a.card-title {
+  color: #434343;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-description p {
   word-break: break-all;
   width: 70%;

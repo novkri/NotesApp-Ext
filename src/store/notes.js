@@ -29,6 +29,22 @@ export default {
       }
     },
 
+    async deleteNote({ dispatch, commit }, noteId) {
+      try {
+        const uid = await dispatch("getUid");
+        console.log(noteId, uid);
+        await firebase
+          .database()
+          .ref(`/users/${uid}/notes`)
+          .child(noteId)
+          .remove();
+        // return { ...payload, id: note.key };
+      } catch (error) {
+        commit("setError", error);
+        throw error;
+      }
+    },
+
     async fetchNotes({ dispatch }) {
       try {
         const uid = await dispatch("getUid");
