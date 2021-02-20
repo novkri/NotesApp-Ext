@@ -5,7 +5,11 @@
         <div class="modal-header">
           <h4>Новая заметка</h4>
 
-          <button type="button" class="btn-close btn-flat" @click="close">
+          <button
+            type="button"
+            class="btn-close btn-flat modal-close"
+            @click="close"
+          >
             <i class="material-icons">close</i>
           </button>
         </div>
@@ -31,30 +35,19 @@
               </span>
             </div>
             <div class="input-field col s12">
-              <ul v-if="isDecoratorsVisible" class="text-editor-list">
-                <li class="text-editor-item" title="Strong <strong> Ctrl+B" @click="PasteText('b')"><button>B</button></li>
-                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('em')"><span>i</span></li>
-                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('blockquote')"><span>Цитата</span></li>
-                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('a')"><span>Ссылка</span></li>
-              </ul>
-              <textarea
-                id="description"
-                ref="description"
-                type="text"
-                class="materialize-textarea"
-                @focus="isDecoratorsVisible = true"
-                @blur="isDecoratorsVisible = false"
-                v-model.trim="description"
-              >
-              </textarea>
-              <label for="description">Описание</label>
+              <quill-editor
+                class="editor"
+                ref="myQuillEditor"
+                v-model="description"
+                placeholder="Введите описание"
+              />
             </div>
           </div>
 
           <div class="modal-footer">
             <button
               type="submit"
-              class="modal-close waves-effect waves-yellow btn-flat"
+              class="modal-close waves-effect waves-light light-green btn"
             >
               Создать
             </button>
@@ -69,13 +62,17 @@
 import { required } from "vuelidate/lib/validators";
 import M from "materialize-css";
 
+import { quillEditor } from "vue-quill-editor";
+
 export default {
   name: "modal",
   data: () => ({
     title: "",
-    description: "",
-    isDecoratorsVisible: false
+    description: ""
   }),
+  components: {
+    quillEditor
+  },
   validations: {
     title: {
       required
@@ -101,7 +98,6 @@ export default {
       const newNoteData = {
         title: this.title,
         description: this.description,
-        // createdAt: new Date().toLocaleString("ru-RU")
         createdAt: new Date().toString()
       };
 
@@ -111,11 +107,6 @@ export default {
       this.description = "";
       this.$v.$reset();
     },
-    PasteText(tag) {
-      console.log(tag);
-      this.$refs.description.value = `<${tag}>text</${tag}>`
-      this.$refs.description.focus()
-    }
   }
 };
 </script>
@@ -165,10 +156,17 @@ export default {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.ql-editor {
+  min-height: 150px;
+}
+.ql-editor.ql-blank::before {
+  content: "Введите текст заметки здесь..." !important;
 }
 </style>

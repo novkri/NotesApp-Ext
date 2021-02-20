@@ -1,8 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
-import Vuelidate from "vuelidate";
 import router from "./router";
 import store from "./store";
+import Vuelidate from "vuelidate";
 import Loader from "@/components/Loader";
 
 import "materialize-css/dist/js/materialize.min";
@@ -17,11 +17,31 @@ import "vue-toastification/dist/index.css";
 
 import moment from "moment";
 
-Vue.prototype.moment = moment;
+import VueQuillEditor from "vue-quill-editor";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+
+
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
+
+Vue.prototype.moment = moment;
+
+Vue.use(VueQuillEditor, {
+  modules: {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ color: [] }, { background: [] }],
+      ["clean"],
+      ["link"]
+    ]
+  },
+  theme: "snow"
+});
 
 Vue.component("Loader", Loader);
 

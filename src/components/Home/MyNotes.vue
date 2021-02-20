@@ -49,20 +49,26 @@
             "
             v-show="!isEditingDescription || currentId !== note.id"
           >
-            <!-- {{ note.description }} -->
             <span v-html="note.description"></span>
             <span class="card-description--empty" v-if="!note.description"
               >Добавить описание...</span
             >
           </p>
-          <textarea
-            class="card-description editing materialize-textarea"
-            type="text"
+
+          <quill-editor
+            class="editor card-description editing"
             v-show="isEditingDescription && currentId === note.id"
             v-model.trim="note.description"
             @blur="setEditing($event, false, false, note)"
             @keyup.enter="$event.target.blur()"
-          ></textarea>
+          />
+          <button
+            class="waves-effect waves-light light-green darken-1 btn-small"
+            @click="setEditing($event, false, false, note)"
+            v-show="isEditingDescription && currentId === note.id"
+          >
+            Сохранить
+          </button>
         </div>
         <div class="card-action card-info">
           <span class="card-date"
@@ -81,6 +87,7 @@
 
 <script>
 import moment from "moment-timezone";
+import { quillEditor } from "vue-quill-editor";
 
 export default {
   props: {
@@ -93,12 +100,14 @@ export default {
     date: new Date(),
     time: new Date(),
     interval: null,
-    // isEditing: false,
     isEditingTitle: false,
     isEditingDescription: false,
     currentData: "",
     currentId: ""
   }),
+  components: {
+    quillEditor
+  },
   beforeDestroy() {
     clearInterval(this.interval);
   },
@@ -145,12 +154,11 @@ export default {
       if (editingTitle || editingDescription) {
         this.currentId = data.id;
         this.currentData = data.data;
-      } 
-      else {
+      } else {
         data.createdAt = new Date().toString();
         this.$emit("updateNote", data);
       }
-    },
+    }
   }
 };
 </script>
