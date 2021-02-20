@@ -30,7 +30,6 @@
               v-model.trim="note.title"
               @blur="setEditing($event, false, false, note)"
               @keyup.enter="$event.target.blur()"
-              @keyup.esc="cancelEditing(note.title)"
             />
 
             <a
@@ -50,7 +49,8 @@
             "
             v-show="!isEditingDescription || currentId !== note.id"
           >
-            {{ note.description }}
+            <!-- {{ note.description }} -->
+            <span v-html="note.description"></span>
             <span class="card-description--empty" v-if="!note.description"
               >Добавить описание...</span
             >
@@ -62,7 +62,6 @@
             v-model.trim="note.description"
             @blur="setEditing($event, false, false, note)"
             @keyup.enter="$event.target.blur()"
-            @keyup.esc="cancelEditing(note.description)"
           ></textarea>
         </div>
         <div class="card-action card-info">
@@ -146,22 +145,12 @@ export default {
       if (editingTitle || editingDescription) {
         this.currentId = data.id;
         this.currentData = data.data;
-      } else {
+      } 
+      else {
         data.createdAt = new Date().toString();
         this.$emit("updateNote", data);
       }
     },
-
-    cancelEditing(data) {
-      // console.log(this.currentData); //old
-      // let oldData = this.currentData
-      // this.currentData = oldData
-      console.log(data); //new
-      // console.log(oldData);
-      // this.currentData =
-
-      [this.isEditingTitle, this.isEditingDescription] = [false, false];
-    }
   }
 };
 </script>

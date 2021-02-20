@@ -31,12 +31,22 @@
               </span>
             </div>
             <div class="input-field col s12">
+              <ul v-if="isDecoratorsVisible" class="text-editor-list">
+                <li class="text-editor-item" title="Strong <strong> Ctrl+B" @click="PasteText('b')"><button>B</button></li>
+                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('em')"><span>i</span></li>
+                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('blockquote')"><span>Цитата</span></li>
+                <li class="text-editor-item" title="Emphasis <em> Ctrl+I" @click="PasteText('a')"><span>Ссылка</span></li>
+              </ul>
               <textarea
                 id="description"
+                ref="description"
                 type="text"
                 class="materialize-textarea"
+                @focus="isDecoratorsVisible = true"
+                @blur="isDecoratorsVisible = false"
                 v-model.trim="description"
-              ></textarea>
+              >
+              </textarea>
               <label for="description">Описание</label>
             </div>
           </div>
@@ -63,7 +73,8 @@ export default {
   name: "modal",
   data: () => ({
     title: "",
-    description: ""
+    description: "",
+    isDecoratorsVisible: false
   }),
   validations: {
     title: {
@@ -99,6 +110,11 @@ export default {
       this.title = "";
       this.description = "";
       this.$v.$reset();
+    },
+    PasteText(tag) {
+      console.log(tag);
+      this.$refs.description.value = `<${tag}>text</${tag}>`
+      this.$refs.description.focus()
     }
   }
 };
