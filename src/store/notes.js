@@ -67,13 +67,10 @@ export default {
           .database()
           .ref(`/users/${uid}/notes/${payload.id}`)
           .update({
-            createdAt: payload.createdAt,
+            createdAt: new Date().toString(),
             description: payload.description,
             title: payload.title
           });
-        // .child(noteId)
-        // .remove();
-        // return { ...payload, id: note.key };
       } catch (error) {
         commit("setError", error);
         throw error;

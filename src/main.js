@@ -34,7 +34,7 @@ Vue.use(VueQuillEditor, {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
       ["blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
+      [{ list: "ordered" }],
       [{ color: [] }, { background: [] }],
       ["clean"],
       ["link"]

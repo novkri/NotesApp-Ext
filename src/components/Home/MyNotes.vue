@@ -20,13 +20,14 @@
                   data: note.title
                 })
               "
-              v-show="!isEditingTitle || currentId !== note.id"
+              v-if="!isEditingTitle || currentId !== note.id"
               >{{ note.title }}</span
             >
+            <!-- v-else-if="isEditingTitle && currentId === note.id" -->
             <input
               class="card-title editing"
               type="text"
-              v-show="isEditingTitle && currentId === note.id"
+              v-else
               v-model.trim="note.title"
               @blur="setEditing($event, false, false, note)"
               @keyup.enter="$event.target.blur()"
@@ -47,7 +48,7 @@
                 data: note.description
               })
             "
-            v-show="!isEditingDescription || currentId !== note.id"
+            v-if="!isEditingDescription || currentId !== note.id"
           >
             <span v-html="note.description"></span>
             <span class="card-description--empty" v-if="!note.description"
@@ -55,9 +56,10 @@
             >
           </p>
 
+<!-- v-else-if="isEditingDescription && currentId === note.id" -->
           <quill-editor
             class="editor card-description editing"
-            v-show="isEditingDescription && currentId === note.id"
+            v-else
             v-model.trim="note.description"
             @blur="setEditing($event, false, false, note)"
             @keyup.enter="$event.target.blur()"
@@ -72,7 +74,7 @@
         </div>
         <div class="card-action card-info">
           <span class="card-date"
-            >Дата создания:
+            >Дата создания: {{note.createdAt}}
             {{ new Date(note.createdAt).toLocaleDateString("ru-RU") }},
             {{ new Date(note.createdAt).toLocaleTimeString("ru-RU") }}</span
           >
@@ -155,7 +157,6 @@ export default {
         this.currentId = data.id;
         this.currentData = data.data;
       } else {
-        data.createdAt = new Date().toString();
         this.$emit("updateNote", data);
       }
     }
@@ -201,6 +202,10 @@ a.card-title {
   word-break: break-all;
   width: 70%;
   margin: auto;
+}
+
+.card-description ol {
+  padding-left: 15px;
 }
 
 .card-description--empty {

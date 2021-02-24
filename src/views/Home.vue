@@ -114,6 +114,8 @@ export default {
 .header {
   margin-top: 0;
   padding: 30px;
+  display: flex;
+  justify-content: center;
 }
 
 .notes-container {
