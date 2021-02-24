@@ -116,6 +116,7 @@ export default {
   padding: 30px;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 .notes-container {

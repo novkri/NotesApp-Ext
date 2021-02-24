@@ -74,7 +74,7 @@
         </div>
         <div class="card-action card-info">
           <span class="card-date"
-            >Дата создания: {{note.createdAt}}
+            >Дата создания:
             {{ new Date(note.createdAt).toLocaleDateString("ru-RU") }},
             {{ new Date(note.createdAt).toLocaleTimeString("ru-RU") }}</span
           >
