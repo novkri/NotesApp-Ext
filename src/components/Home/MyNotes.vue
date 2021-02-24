@@ -65,7 +65,7 @@
             @keyup.enter="$event.target.blur()"
           />
           <button
-            class="waves-effect waves-light light-green darken-1 btn-small"
+            class="waves-effect waves-light light-green darken-1 btn-small save"
             @click="setEditing($event, false, false, note)"
             v-show="isEditingDescription && currentId === note.id"
           >
@@ -213,6 +213,9 @@ a.card-title {
   color: #949494;
 }
 
+.save {
+  margin-top: 15px;
+}
 .card-date,
 .card-time {
   font-size: 0.9rem;

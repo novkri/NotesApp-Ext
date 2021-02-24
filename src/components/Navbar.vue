@@ -59,7 +59,7 @@
         <ul class="" ref="filtersSidebar">
           <li>
             <div class="">
-              Фильтрация
+              Фильтровать по дате:
             </div>
             <div class="">
               <form action="#">
@@ -184,4 +184,10 @@ export default {
     margin-right: 5px;
   }
 }
+
+#mobile-demo ul {
+  display: flex;
+  justify-content: center;
+}
+
 </style>

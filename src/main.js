@@ -36,7 +36,6 @@ Vue.use(VueQuillEditor, {
       ["blockquote"],
       [{ list: "ordered" }],
       [{ color: [] }, { background: [] }],
-      ["clean"],
       ["link"]
     ]
   },
