@@ -11,30 +11,31 @@
             name="username"
             id="username"
             placeholder="Вася Пупкин"
+            @input="$v.username.$touch()"
             :class="{
               invalid:
-                ($v.username.$invalid && !$v.username.required) ||
-                ($v.username.$invalid && !$v.username.minLength) ||
-                ($v.username.$invalid && !$v.username.maxLength)
+                ($v.username.$dirty && !$v.username.required) ||
+                ($v.username.$dirty && !$v.username.minLength) ||
+                ($v.username.$dirty && !$v.username.maxLength)
             }"
             v-model.trim="username"
           />
           <span
             class="helper-text invalid"
-            v-if="$v.username.$invalid && !$v.username.required"
+            v-if="$v.username.$dirty && !$v.username.required"
           >
             Введите имя пользователя
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.username.$invalid && !$v.username.minLength"
+            v-if="$v.username.$dirty && !$v.username.minLength"
           >
             Имя пользователя долдно содержать минимум
             {{ $v.username.$params.minLength.min }} символов
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.username.$invalid && !$v.username.maxLength"
+            v-if="$v.username.$dirty && !$v.username.maxLength"
           >
             Имя пользователя долдно содержать максимум
             {{ $v.username.$params.maxLength.max }} символов
@@ -47,23 +48,24 @@
             name="email"
             id="email"
             placeholder="email@email.com"
+            @input="$v.email.$touch()"
             class="validate"
             :class="{
               invalid:
-                ($v.email.$invalid && !$v.email.required) ||
-                ($v.email.$invalid && !$v.email.email)
+                ($v.email.$dirty && !$v.email.required) ||
+                ($v.email.$dirty && !$v.email.email)
             }"
             v-model.trim="email"
           />
           <span
             class="helper-text invalid"
-            v-if="$v.email.$invalid && !$v.email.required"
+            v-if="$v.email.$dirty && !$v.email.required"
           >
             Введите email
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.email.$invalid && !$v.email.email"
+            v-if="$v.email.$dirty && !$v.email.email"
           >
             Введите корректный email
           </span>
@@ -75,22 +77,23 @@
             name="password"
             id="password"
             placeholder="Пароль"
+            @input="$v.password.$touch()"
             :class="{
               invalid:
-                ($v.password.$invalid && !$v.password.required) ||
-                ($v.password.$invalid && !$v.password.minLength)
+                ($v.password.$dirty && !$v.password.required) ||
+                ($v.password.$dirty && !$v.password.minLength)
             }"
             v-model.trim="password"
           />
           <span
             class="helper-text invalid"
-            v-if="$v.password.$invalid && !$v.password.required"
+            v-if="$v.password.$dirty && !$v.password.required"
           >
             Введите пароль
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.password.$invalid && !$v.password.minLength"
+            v-if="$v.password.$dirty && !$v.password.minLength"
           >
             Пароль должен содержать минимум
             {{ $v.password.$params.minLength.min }} символов

@@ -11,30 +11,31 @@
             name="email"
             id="email"
             placeholder="Вася Пупкин"
+            @input="$v.email.$touch()"
             v-model.trim="email"
             :class="{
               invalid:
-                ($v.email.$invalid && !$v.email.required) ||
-                ($v.email.$invalid && !$v.email.minLength) ||
-                ($v.email.$invalid && !$v.email.maxLength)
+                ($v.email.$dirty && !$v.email.required) ||
+                ($v.email.$dirty && !$v.email.minLength) ||
+                ($v.email.$dirty && !$v.email.maxLength)
             }"
           />
           <span
             class="helper-text invalid"
-            v-if="$v.email.$invalid && !$v.email.required"
+            v-if="$v.email.$dirty && !$v.email.required"
           >
             Введите имя пользователя
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.email.$invalid && !$v.email.minLength"
+            v-if="$v.email.$dirty && !$v.email.minLength"
           >
             Имя пользователя долдно содержать минимум
             {{ $v.email.$params.minLength.min }} символов
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.email.$invalid && !$v.email.maxLength"
+            v-if="$v.email.$dirty && !$v.email.maxLength"
           >
             Имя пользователя долдно содержать максимум
             {{ $v.email.$params.maxLength.max }} символов
@@ -48,22 +49,23 @@
             name="password"
             id="password"
             placeholder="Пароль"
+            @input="$v.password.$touch()"
             v-model.trim="password"
             :class="{
               invalid:
-                ($v.password.$invalid && !$v.password.required) ||
-                ($v.password.$invalid && !$v.password.minLength)
+                ($v.password.$dirty && !$v.password.required) ||
+                ($v.password.$dirty && !$v.password.minLength)
             }"
           />
           <span
             class="helper-text invalid"
-            v-if="$v.password.$invalid && !$v.password.required"
+            v-if="$v.password.$dirty && !$v.password.required"
           >
             Введите пароль
           </span>
           <span
             class="helper-text invalid"
-            v-if="$v.password.$invalid && !$v.password.minLength"
+            v-if="$v.password.$dirty && !$v.password.minLength"
           >
             Пароль должен содержать минимум
             {{ $v.password.$params.minLength.min }} символов
