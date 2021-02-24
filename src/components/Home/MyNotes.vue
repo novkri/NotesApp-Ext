@@ -75,8 +75,10 @@
         <div class="card-action card-info">
           <span class="card-date"
             >Дата создания:
+            <!-- {{ moment(`${note.createdAt}`).format('DD.MM.YYYY, HH:mm') }} -->
             {{ new Date(note.createdAt).toLocaleDateString("ru-RU") }},
-            {{ new Date(note.createdAt).toLocaleTimeString("ru-RU") }}</span
+            {{ new Date(note.createdAt).toLocaleTimeString("ru-RU") }}
+            </span
           >
           <span class="card-date"
             >{{ getYearsMonthsDays(note.createdAt) }} назад</span

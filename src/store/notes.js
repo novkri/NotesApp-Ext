@@ -6,12 +6,12 @@ export default {
   },
 
   mutations: {
-    setNotes(state, notes) {
-      state.notes = notes;
-    },
+    // setNotes(state, notes) {
+    //   state.notes = notes;
+    // },
     addNote(state, note) {
       state.notes.push(note);
-    }
+    },
   },
 
   actions: {
@@ -53,7 +53,6 @@ export default {
               .ref(`/users/${uid}/notes`)
               .once("value")
           ).val() || {};
-
         return Object.keys(notes).map(key => ({ ...notes[key], id: key }));
       } catch (error) {
         console.error(error);
@@ -70,7 +69,7 @@ export default {
             createdAt: new Date().toString(),
             description: payload.description,
             title: payload.title
-          });
+          })
       } catch (error) {
         commit("setError", error);
         throw error;

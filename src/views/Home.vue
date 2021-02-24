@@ -81,6 +81,7 @@ export default {
     },
     updateNote(data) {
       this.$store.dispatch("updateNote", data);
+      this.notes.filter(note => note.id === data.id)[0].createdAt = new Date().toString()
     },
 
     async dateFilter(choosenDate) {
