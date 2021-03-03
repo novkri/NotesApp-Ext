@@ -50,7 +50,7 @@
             "
             v-if="!isEditingDescription || currentId !== note.id"
           >
-            <span v-html="note.description"></span>
+            <span v-html="note.description">{{note.description}}</span>
             <span class="card-description--empty" v-if="!note.description"
               >Добавить описание...</span
             >
@@ -115,7 +115,6 @@ export default {
   beforeDestroy() {
     clearInterval(this.interval);
   },
-
   methods: {
     getYearsMonthsDays(date) {
       let fromTime = moment(new Date(date)).diff(moment(), "milliseconds");
@@ -144,7 +143,6 @@ export default {
           : seconds + " сек.";
       }
     },
-
     deleteNote(noteId) {
       this.$emit("deleteNote", noteId);
     },

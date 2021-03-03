@@ -33,6 +33,7 @@
               href="#!"
               data-target="dropdown1"
               ref="filters"
+              v-show="notes.length"
             >
               Фильтровать по дате
               <i class="material-icons right">arrow_drop_down</i>
@@ -57,7 +58,7 @@
     <ul class="sidenav" id="mobile-demo" ref="mobileMenu">
       <li>
         <ul class="" ref="filtersSidebar">
-          <li>
+          <li v-show="notes.length">
             <div class="">
               Фильтровать по дате:
             </div>
@@ -112,6 +113,12 @@ import M from "materialize-css";
 
 export default {
   name: "navbar",
+  props: {
+    notes: {
+      type: Array,
+      required: true
+    }
+  },
   data: () => ({
     date: new Date(),
     interval: null
