@@ -69,8 +69,6 @@ export default {
   },
   methods: {
     async dateFilter(choosenDate) {
-      // this.notes = await this.$store.dispatch("fetchNotes");
-
       const today = moment().format("DD.MM.YYYY");
       const yesterday = moment()
         .add(-1, "days")
@@ -91,18 +89,21 @@ export default {
           break;
       }
     },
+
     createNewNote(data) {
       this.$store.dispatch("createNote", data).then(() => {
         this.notes.push(data);
         this.$toast.success("Заметка успешно добавлена! :)");
       });
     },
+
     deleteNote(data) {
       this.$store.dispatch("deleteNote", data).then(() => {
         this.notes = this.notes.filter(note => note.id !== data);
         this.$toast.success("Заметка удалена! :)");
       });
     },
+    
     updateNote(data) {
       this.$store.dispatch("updateNote", data);
       this.notes.filter(note => note.id === data.id)[0].createdAt = new Date().toString()

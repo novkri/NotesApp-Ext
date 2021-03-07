@@ -89,6 +89,7 @@ export default {
       this.description = "";
       this.$v.$reset();
     },
+    
     onSubmit() {
       if (this.$v.$invalid) {
         this.$v.$touch();

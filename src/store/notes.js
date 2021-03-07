@@ -17,6 +17,7 @@ export default {
   actions: {
     async createNote({ dispatch, commit }, payload) {
       try {
+        commit("clearError");
         const uid = await dispatch("getUid");
         const note = await firebase
           .database()
@@ -31,6 +32,7 @@ export default {
 
     async deleteNote({ dispatch, commit }, noteId) {
       try {
+        commit("clearError");
         const uid = await dispatch("getUid");
         await firebase
           .database()
@@ -61,6 +63,7 @@ export default {
 
     async updateNote({ dispatch, commit }, payload) {
       try {
+        commit("clearError");
         const uid = await dispatch("getUid");
         await firebase
           .database()

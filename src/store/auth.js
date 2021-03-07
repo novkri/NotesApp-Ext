@@ -8,6 +8,7 @@ export default {
   actions: {
     async register({ dispatch, commit }, { email, password, username }) {
       try {
+        commit("clearError");
         await firebase.auth().createUserWithEmailAndPassword(email, password);
         const uid = await dispatch("getUid");
         await firebase
@@ -28,6 +29,7 @@ export default {
 
     async login({ commit }, { email, password }) {
       try {
+        commit("clearError");
         await firebase.auth().signInWithEmailAndPassword(email, password);
       } catch (error) {
         commit("setError", error);
